@@ -49,16 +49,20 @@
             colChineseName = new DataGridViewTextBoxColumn();
             coBirthday = new DataGridViewTextBoxColumn();
             colIDNumber = new DataGridViewTextBoxColumn();
+            tabPage3 = new TabPage();
+            pbConnect = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            tabPage3.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabPage3);
             tabControl1.Dock = DockStyle.Fill;
             tabControl1.Font = new Font("微軟正黑體", 12F, FontStyle.Regular, GraphicsUnit.Point, 136);
             tabControl1.Location = new Point(0, 0);
@@ -257,6 +261,26 @@
             colIDNumber.HeaderText = "身分證號";
             colIDNumber.Name = "colIDNumber";
             // 
+            // tabPage3
+            // 
+            tabPage3.Controls.Add(pbConnect);
+            tabPage3.Location = new Point(4, 29);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Size = new Size(792, 417);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "資料庫連結";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // pbConnect
+            // 
+            pbConnect.Location = new Point(37, 33);
+            pbConnect.Name = "pbConnect";
+            pbConnect.Size = new Size(109, 42);
+            pbConnect.TabIndex = 0;
+            pbConnect.Text = "資料庫連接";
+            pbConnect.UseVisualStyleBackColor = true;
+            pbConnect.Click += pbConnect_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -270,6 +294,7 @@
             tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            tabPage3.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -296,5 +321,7 @@
         private DataGridViewTextBoxColumn colIDNumber;
         private Button pbImport;
         private Button btQuit2;
+        private TabPage tabPage3;
+        private Button pbConnect;
     }
 }

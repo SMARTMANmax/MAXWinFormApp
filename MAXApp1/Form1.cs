@@ -1,7 +1,12 @@
+using Dapper;
+using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
+
 namespace MAXApp1
 {
     public partial class Form1 : Form
     {
+        public string ConnString { get; set; }
         public Form1()
         {
             InitializeComponent();
@@ -136,12 +141,32 @@ namespace MAXApp1
                 dataGridView1.ResumeLayout();
             }
         }
-                private void btQuit2_Click(object sender, EventArgs e)
+        private void btQuit2_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
-    }
 
+        private void pbConnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 測試是否可以連到資料庫
+                SqlConnection conn = new SqlConnection();
+                conn.ConnectionString = "Server=localhost;Database=BL;User Id=SYSADM;Password=SYSADM";
+                this.ConnString = conn.ConnectionString;
+                EmployeeService.ConnString = conn.ConnectionString;
+                // 可以或失敗都跳出訊息
+                conn.Open();
+                MessageBox.Show("連線成功!");
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("發生錯誤: " + ex.Message + "哪裡錯?" + ex.StackTrace);
+            }
+        }
+    }
 }
+
 
 
