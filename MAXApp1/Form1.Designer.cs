@@ -50,12 +50,19 @@
             coBirthday = new DataGridViewTextBoxColumn();
             colIDNumber = new DataGridViewTextBoxColumn();
             tabPage3 = new TabPage();
+            pbQuit3 = new Button();
+            pbitemsDel = new Button();
+            pbitemsUpdate = new Button();
+            pbitemsNew = new Button();
+            pbItemsSelect = new Button();
+            dataGridViewItems = new DataGridView();
             pbConnect = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewItems).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -68,7 +75,7 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(800, 450);
+            tabControl1.Size = new Size(854, 450);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -87,7 +94,7 @@
             tabPage1.Location = new Point(4, 29);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(792, 417);
+            tabPage1.Size = new Size(846, 417);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "資料建檔";
             tabPage1.UseVisualStyleBackColor = true;
@@ -207,7 +214,7 @@
             tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(792, 417);
+            tabPage2.Size = new Size(846, 417);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "資料維護";
             tabPage2.UseVisualStyleBackColor = true;
@@ -263,13 +270,77 @@
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(pbQuit3);
+            tabPage3.Controls.Add(pbitemsDel);
+            tabPage3.Controls.Add(pbitemsUpdate);
+            tabPage3.Controls.Add(pbitemsNew);
+            tabPage3.Controls.Add(pbItemsSelect);
+            tabPage3.Controls.Add(dataGridViewItems);
             tabPage3.Controls.Add(pbConnect);
             tabPage3.Location = new Point(4, 29);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(792, 417);
+            tabPage3.Size = new Size(846, 417);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "資料庫連結";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // pbQuit3
+            // 
+            pbQuit3.Location = new Point(660, 30);
+            pbQuit3.Name = "pbQuit3";
+            pbQuit3.Size = new Size(120, 45);
+            pbQuit3.TabIndex = 10;
+            pbQuit3.Text = "離開";
+            pbQuit3.UseVisualStyleBackColor = true;
+            pbQuit3.Click += pbQuit3_Click;
+            // 
+            // pbitemsDel
+            // 
+            pbitemsDel.Location = new Point(529, 33);
+            pbitemsDel.Name = "pbitemsDel";
+            pbitemsDel.Size = new Size(109, 42);
+            pbitemsDel.TabIndex = 5;
+            pbitemsDel.Text = "刪除";
+            pbitemsDel.UseVisualStyleBackColor = true;
+            pbitemsDel.Click += pbitemsDel_Click;
+            // 
+            // pbitemsUpdate
+            // 
+            pbitemsUpdate.Location = new Point(403, 33);
+            pbitemsUpdate.Name = "pbitemsUpdate";
+            pbitemsUpdate.Size = new Size(109, 42);
+            pbitemsUpdate.TabIndex = 4;
+            pbitemsUpdate.Text = "修改";
+            pbitemsUpdate.UseVisualStyleBackColor = true;
+            pbitemsUpdate.Click += pbitemsUpdate_Click_1;
+            // 
+            // pbitemsNew
+            // 
+            pbitemsNew.Location = new Point(278, 33);
+            pbitemsNew.Name = "pbitemsNew";
+            pbitemsNew.Size = new Size(109, 42);
+            pbitemsNew.TabIndex = 3;
+            pbitemsNew.Text = "新增";
+            pbitemsNew.UseVisualStyleBackColor = true;
+            pbitemsNew.Click += pbitemsNew_Click;
+            // 
+            // pbItemsSelect
+            // 
+            pbItemsSelect.Location = new Point(152, 33);
+            pbItemsSelect.Name = "pbItemsSelect";
+            pbItemsSelect.Size = new Size(109, 42);
+            pbItemsSelect.TabIndex = 2;
+            pbItemsSelect.Text = "查詢";
+            pbItemsSelect.UseVisualStyleBackColor = true;
+            pbItemsSelect.Click += pbItemsSelect_Click;
+            // 
+            // dataGridViewItems
+            // 
+            dataGridViewItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewItems.Location = new Point(18, 110);
+            dataGridViewItems.Name = "dataGridViewItems";
+            dataGridViewItems.Size = new Size(808, 277);
+            dataGridViewItems.TabIndex = 1;
             // 
             // pbConnect
             // 
@@ -279,13 +350,14 @@
             pbConnect.TabIndex = 0;
             pbConnect.Text = "資料庫連接";
             pbConnect.UseVisualStyleBackColor = true;
+            pbConnect.Visible = false;
             pbConnect.Click += pbConnect_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(854, 450);
             Controls.Add(tabControl1);
             Name = "Form1";
             Text = "Form1";
@@ -295,6 +367,7 @@
             tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridViewItems).EndInit();
             ResumeLayout(false);
         }
 
@@ -323,5 +396,11 @@
         private Button btQuit2;
         private TabPage tabPage3;
         private Button pbConnect;
+        private DataGridView dataGridViewItems;
+        private Button pbItemsSelect;
+        private Button pbitemsNew;
+        private Button pbitemsDel;
+        private Button pbitemsUpdate;
+        private Button pbQuit3;
     }
 }
