@@ -1,22 +1,30 @@
 using Dapper;
-using Microsoft.Win32.SafeHandles;
 using System.ComponentModel;
+using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics.Contracts;
+using System.Windows.Forms;
 
 namespace MAXApp1
 {
     public partial class Form1 : Form
     {
         public string ConnString { get; set; }
+        // 宣告 DatabaseManager 物件
+        public DatabaseManager dbManager;
         private BindingList<itemsview> itemsList = new BindingList<itemsview>();
+        private List<itemsview> itemsListForSorting = new List<itemsview>();
+        private System.Windows.Forms.SortOrder sortOrder = System.Windows.Forms.SortOrder.Ascending; // 或初始為 Descending
         public Form1()
         {
             InitializeComponent();
-            ConnString = "Server=localhost;Database=BL;User Id=SYSADM;Password=SYSADM;";
+            //ConnString = "Server=localhost;Database=BL;User Id=SYSADM;Password=SYSADM;"; 
+            //ConnString = "Server=192.168.1.9;Database=_SMARTMANTEST;User Id=SYSADM;Password=SYSADM;";
+            // 初始化 DatabaseManager
+            dbManager = new DatabaseManager("localhost", "BL", "SYSADM", "SYSADM");
             // 註冊 SelectedIndexChanged 事件
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.Load += new EventHandler(Form1_Load);
+            dataGridViewItems.ColumnHeaderMouseDoubleClick += dataGridViewItems_ColumnHeaderMouseDoubleClick;
         }
 
 
@@ -42,13 +50,6 @@ namespace MAXApp1
             tableLayoutPanel1.AutoSize = true;
             //tableLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             tableLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowOnly;
-            // 模擬數據加載
-            //List<itemsview> items = new List<itemsview>
-        //{
-        //    new itemsview { Id = "1", Name = "Item1", Description = "Description1", MarketValue = 100, Quantity = 10, Type = "Type1", LastUpdated = DateTime.Now },
-        //   new itemsview { Id = "2", Name = "Item2", Description = "Description2", MarketValue = 200, Quantity = 20, Type = "Type2", LastUpdated = DateTime.Now }
-        //};
-
             //dataGridView1.DataSource = items;
             // 初始化 DataGridView 的資料源
             dataGridViewItems.DataSource = itemsList;
@@ -58,21 +59,24 @@ namespace MAXApp1
             LoadItemsFromDatabase();
         }
 
-        private void LoadItemsFromDatabase()
+        public void LoadItemsFromDatabase()
         {
-            using (SqlConnection conn = new SqlConnection(ConnString))
+            //using (SqlConnection conn = new SqlConnection(ConnString))
+            using (SqlConnection conn = dbManager.OpenConnection())
             {
 
                 //  dataGridView1 中的資料，但保留列設置
                 dataGridViewItems.Rows.Clear();
-                conn.Open();
+                //conn.Open();
                 var items = conn.Query<itemsview>("SELECT * FROM Items").ToList();
-
+                //itemsListForSorting = items;
+                // 創建一個新的列表，並將 items 的內容複製到這個新列表中
+                itemsListForSorting = items.ToList();
                 foreach (var item in items)
                 {
                     itemsList.Add(item);
                 }
-                conn.Close();
+                //conn.Close();
                 dataGridViewItems.Columns["Id"].HeaderText = "ID";
                 dataGridViewItems.Columns["Name"].HeaderText = "名稱";
                 dataGridViewItems.Columns["Description"].HeaderText = "描述";
@@ -82,6 +86,7 @@ namespace MAXApp1
                 dataGridViewItems.Columns["LastUpdated"].HeaderText = "最後更新";
             }
             dataGridViewItems.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewItems.AllowUserToAddRows = false;
         }
 
 
@@ -199,6 +204,7 @@ namespace MAXApp1
                 // 測試是否可以連到資料庫
                 SqlConnection conn = new SqlConnection();
                 conn.ConnectionString = "Server=localhost;Database=BL;User Id=SYSADM;Password=SYSADM;";
+                //conn.ConnectionString = "Server=192.168.1.9;Database=_SMARTMANTEST;User Id=SYSADM;Password=SYSADM;";
                 this.ConnString = conn.ConnectionString;
                 EmployeeService.ConnString = conn.ConnectionString;
                 // 可以或失敗都跳出訊息
@@ -216,54 +222,16 @@ namespace MAXApp1
             // 檢查是否選中了 tabPage3
             if (tabControl1.SelectedTab == tabPage3)
             {
-                // 執行連接資料庫的程式碼
-                ConnectToDatabase();
-            }
-        }
-        private void ConnectToDatabase()
-        {
-            try
-            {
-                //SqlConnection conn = new SqlConnection();
-                //conn.ConnectionString = "Server=localhost;Database=BL;User Id=SYSADM;Password=SYSADM";
-                //this.ConnString = conn.ConnectionString;
-                //EmployeeService.ConnString = conn.ConnectionString;
-                //conn.Open(); // 嘗試打開連接
-                //////MessageBox.Show("連接成功");
-                //conn.Close(); // 關閉連接
-                //LoadItemsFromDatabase();
+                //// 執行連接資料庫的程式碼
+                LoadItemsFromDatabase();
                 // 自動調整欄位寬度
                 dataGridViewItems.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"連接失敗: {ex.Message}");
             }
         }
 
         private void pbItemsSelect_Click(object sender, EventArgs e)
         {
-            //SqlConnection conn = new SqlConnection();
-            //conn.ConnectionString = ConnString;
-            //conn.Open();
-            //List<itemsview> items = new List<itemsview>();
-            //items = conn.Query<itemsview>("Select * From items").ToList();
-            //conn.Close();
-            //dataGridViewItems.DataSource = items;
-            //// 設定欄位表頭
-            //if (dataGridViewItems.Columns.Count > 0)
-            //{
-            //    dataGridViewItems.Columns["Id"].HeaderText = "ID";
-            //    dataGridViewItems.Columns["Name"].HeaderText = "名稱";
-            //    dataGridViewItems.Columns["Description"].HeaderText = "描述";
-            //    dataGridViewItems.Columns["MarketValue"].HeaderText = "市場價值";
-            //    dataGridViewItems.Columns["Quantity"].HeaderText = "數量";
-            //    dataGridViewItems.Columns["Type"].HeaderText = "類型";
-            //    dataGridViewItems.Columns["LastUpdated"].HeaderText = "最後更新";
-            //    // 自動調整欄位寬度
-            //    dataGridViewItems.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-            //}
             LoadItemsFromDatabase();
             //// set so whole row is selected 讓整行被選取
             //dataGridViewItems.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -286,10 +254,12 @@ namespace MAXApp1
                     Type = selectedRow.Cells["Type"].Value.ToString(),
                     LastUpdated = Convert.ToDateTime(selectedRow.Cells["LastUpdated"].Value)
                 };
-                FormUpdate formUpdate = new FormUpdate(item, ConnString)
-                {
-                    Owner = this
-                };
+                //FormUpdate formUpdate = new FormUpdate(item, ConnString)
+                //{
+                //    Owner = this
+                //};
+                FormUpdate formUpdate = new FormUpdate(this.dbManager, item, ConnString);
+                formUpdate.Owner = this; // this 是當前的 Form1 實例
                 formUpdate.ShowDialog();
             }
             else
@@ -299,7 +269,25 @@ namespace MAXApp1
         }
         public void UpdateDataGridViewItems(int id, string name, string description, int marketValue, int quantity, string type, DateTime lastUpdated)
         {
-            BindingList<itemsview> itemsList = (BindingList<itemsview>)dataGridViewItems.DataSource;
+            BindingList<itemsview> itemsList;
+
+            // 檢查 DataSource 是否為 BindingList<itemsview>
+            if (dataGridViewItems.DataSource is BindingList<itemsview> bindingList)
+            {
+                itemsList = bindingList;
+            }
+            // 如果 DataSource 是 List<itemsview>，則轉換為 BindingList<itemsview>
+            else if (dataGridViewItems.DataSource is List<itemsview> list)
+            {
+                itemsList = new BindingList<itemsview>(list);
+            }
+            else
+            {
+                // 若 DataSource 是其他類型，則初始化一個新的 BindingList<itemsview>
+                itemsList = new BindingList<itemsview>();
+            }
+
+            // 尋找是否已存在相同的 Id
             var existingItem = itemsList.FirstOrDefault(item => item.Id == id.ToString());
 
             if (existingItem != null)
@@ -325,14 +313,21 @@ namespace MAXApp1
                     Type = type,
                     LastUpdated = lastUpdated
                 });
-             }
-
-            // 重新綁定 DataGridView 以顯示最新資料
+            }
+                        // 重新綁定 DataGridView 以顯示最新資料
             dataGridViewItems.DataSource = null;
             dataGridViewItems.DataSource = itemsList;
+            // 重新設定欄位標題
+            dataGridViewItems.Columns["Id"].HeaderText = "ID";
+            dataGridViewItems.Columns["Name"].HeaderText = "名稱";
+            dataGridViewItems.Columns["Description"].HeaderText = "描述";
+            dataGridViewItems.Columns["MarketValue"].HeaderText = "市場價值";
+            dataGridViewItems.Columns["Quantity"].HeaderText = "數量";
+            dataGridViewItems.Columns["Type"].HeaderText = "類型";
+            dataGridViewItems.Columns["LastUpdated"].HeaderText = "最後更新";
+
             // 自動調整欄位寬度
             dataGridViewItems.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-
         }
         private void pbQuit3_Click(object sender, EventArgs e)
         {
@@ -341,17 +336,20 @@ namespace MAXApp1
 
         private void pbitemsNew_Click(object sender, EventArgs e)
         {
-            SqlConnection conn = new SqlConnection(ConnString);
-            conn.Open();
-
+            //SqlConnection conn = new SqlConnection(ConnString);
+            //conn.Open();
+            SqlConnection conn = dbManager.OpenConnection();
             // 獲取當前 items 表中最大 Id
             //string query = "SELECT ISNULL(MAX(Id), 0) + 1 FROM Items";
             //SqlCommand cmd = new SqlCommand(query, conn);
             //int newId = (int)cmd.ExecuteScalar();
-            // 獲取下個要顯示的 Id
+            //// 獲取下個要顯示的 Id
+            //string query = "SELECT IDENT_CURRENT('items') + IDENT_INCR('items')";
+            //SqlCommand cmd = new SqlCommand(query, conn);
+            //int newId = Convert.ToInt32(cmd.ExecuteScalar());
+            // 使用 Dapper 來執行查詢並獲取 newId
             string query = "SELECT IDENT_CURRENT('items') + IDENT_INCR('items')";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            int newId = Convert.ToInt32(cmd.ExecuteScalar());
+            int newId = conn.Query<int>(query).Single();
             conn.Close();
 
             // 創建新的 itemsview 實例，並設置新的 Id
@@ -367,14 +365,14 @@ namespace MAXApp1
             };
 
             // 打開 FormUpdate 並傳遞 newItem 和 ConnString
-            FormUpdate formUpdate = new FormUpdate(item, ConnString)
+            FormUpdate formUpdate = new FormUpdate(this.dbManager, item, ConnString)
             {
                 Owner = this
             };
             formUpdate.ShowDialog();
         }
 
-        private void pbitemsDel_Click(object sender, EventArgs e)
+          private void pbitemsDel_Click(object sender, EventArgs e)
         {
             // 檢查是否有選取資料
             if (dataGridViewItems.SelectedRows.Count == 0)
@@ -398,30 +396,118 @@ namespace MAXApp1
             DialogResult result = MessageBox.Show($"確定要刪除 Id 為 {selectedId} 的資料嗎？", "確認刪除", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                // 刪除資料庫中的資料
-                using (SqlConnection conn = new SqlConnection(ConnString))
+                // 使用 Dapper 刪除資料庫中的資料
+                using (SqlConnection conn = dbManager.OpenConnection())
                 {
-                    conn.Open();
                     string deleteQuery = "DELETE FROM Items WHERE Id = @Id";
-                    SqlCommand deleteCmd = new SqlCommand(deleteQuery, conn);
-                    deleteCmd.Parameters.AddWithValue("@Id", selectedId);
-                    deleteCmd.ExecuteNonQuery();
-                    conn.Close();
+                    conn.Execute(deleteQuery, new { Id = selectedId });
                 }
 
-                // 刪除 DataGridView 中的資料
-                //dataGridViewItems.Rows.Remove(selectedRow);
                 // 刪除 BindingList 中的資料
                 var itemToRemove = itemsList.FirstOrDefault(item => item.Id == selectedId.ToString());
                 if (itemToRemove != null)
                 {
                     itemsList.Remove(itemToRemove);
                 }
+
                 MessageBox.Show("刪除成功！");
             }
         }
-    }
 
+        //private void dataGridViewItems_ColumnDividerDoubleClick(object sender, DataGridViewColumnDividerDoubleClickEventArgs e)
+        //{
+
+        //}
+
+        private void dataGridViewItems_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // 獲取點擊的欄位名稱
+            //string sortColumn = dataGridViewItems.Columns[e.ColumnIndex].Name;
+
+            //// 獲取當前的排序方向
+            //System.Windows.Forms.SortOrder sortOrder = dataGridViewItems.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection;
+            //string sortDirection = sortOrder == System.Windows.Forms.SortOrder.Ascending ? "DESC" : "ASC";
+
+            //// 更新排序圖標方向
+            //dataGridViewItems.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortOrder == System.Windows.Forms.SortOrder.Ascending ? System.Windows.Forms.SortOrder.Descending : System.Windows.Forms.SortOrder.Ascending;
+
+            //// 使用 Dapper 從資料庫中重新查詢並排序
+            //using (SqlConnection conn = dbManager.OpenConnection())
+            //{
+            //    string query = $"SELECT * FROM Items ORDER BY {sortColumn} {sortDirection}";
+            //    var items = conn.Query<itemsview>(query).ToList();
+
+            //    // 將查詢結果綁定到 dataGridViewItems
+            //    dataGridViewItems.DataSource = new BindingList<itemsview>(items);
+            //}
+            string sortColumn = dataGridViewItems.Columns[e.ColumnIndex].Name;
+
+            // 切換排序順序
+            if (sortOrder == System.Windows.Forms.SortOrder.Ascending)
+            {
+                sortOrder = System.Windows.Forms.SortOrder.Descending;
+                itemsListForSorting = itemsListForSorting.OrderByDescending(item => item.GetType().GetProperty(sortColumn).GetValue(item, null)).ToList();
+            }
+            else
+            {
+                sortOrder = System.Windows.Forms.SortOrder.Ascending;
+                itemsListForSorting = itemsListForSorting.OrderBy(item => item.GetType().GetProperty(sortColumn).GetValue(item, null)).ToList();
+            }
+
+            // 將排序後的列表轉換為 BindingList
+            itemsList = new BindingList<itemsview>(itemsListForSorting);
+
+            // 更新 dataGridViewItems 的顯示
+            dataGridViewItems.DataSource = null; // 取消繫結
+            dataGridViewItems.DataSource = itemsList; // 重新繫結
+            //// 切換排序方向
+            //ListSortDirection direction = ListSortDirection.Ascending;
+
+            //if (dataGridViewItems.SortOrder == System.Windows.Forms.SortOrder.Ascending || dataGridViewItems.SortOrder == System.Windows.Forms.SortOrder.None)
+            //{
+            //    direction = ListSortDirection.Descending;
+            //}
+            //else
+            //{
+            //    direction = ListSortDirection.Ascending;
+            //}
+
+            // 對指定列進行排序
+            //dataGridViewItems.Sort(dataGridViewItems.Columns[e.ColumnIndex], direction);
+            dataGridViewItems.Columns["Id"].HeaderText = "ID";
+            dataGridViewItems.Columns["Name"].HeaderText = "名稱";
+            dataGridViewItems.Columns["Description"].HeaderText = "描述";
+            dataGridViewItems.Columns["MarketValue"].HeaderText = "市場價值";
+            dataGridViewItems.Columns["Quantity"].HeaderText = "數量";
+            dataGridViewItems.Columns["Type"].HeaderText = "類型";
+            dataGridViewItems.Columns["LastUpdated"].HeaderText = "最後更新";
+            dataGridViewItems.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+        }
+
+        private void dfSerch_TextChanged(object sender, EventArgs e)
+        {
+            string searchText = dfSerch.Text.ToLower();
+
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                // 如果搜尋框為空，恢復原始資料
+                dataGridViewItems.DataSource = itemsListForSorting;
+            }
+            else
+            {
+                // 進行篩選
+                var filteredList = itemsListForSorting
+                    .Where(item => item.GetType().GetProperties()
+                        .Any(prop => prop.GetValue(item, null) != null &&
+                                     prop.GetValue(item, null).ToString().ToLower().Contains(searchText)))
+                    .ToList();
+
+                // 更新 DataSource 為篩選後的列表
+                dataGridViewItems.DataSource = new BindingList<itemsview>(filteredList);
+            }
+        }
+    }
 }
 
 

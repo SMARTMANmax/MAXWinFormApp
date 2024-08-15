@@ -50,19 +50,25 @@
             coBirthday = new DataGridViewTextBoxColumn();
             colIDNumber = new DataGridViewTextBoxColumn();
             tabPage3 = new TabPage();
-            pbQuit3 = new Button();
-            pbitemsDel = new Button();
-            pbitemsUpdate = new Button();
-            pbitemsNew = new Button();
-            pbItemsSelect = new Button();
+            tableLayoutPanel2 = new TableLayoutPanel();
             dataGridViewItems = new DataGridView();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            pbItemsSelect = new Button();
+            pbitemsNew = new Button();
+            pbitemsUpdate = new Button();
+            pbitemsDel = new Button();
+            pbQuit3 = new Button();
+            lbSerch = new Label();
+            dfSerch = new TextBox();
             pbConnect = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabPage3.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewItems).BeginInit();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -75,7 +81,7 @@
             tabControl1.Location = new Point(0, 0);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(854, 450);
+            tabControl1.Size = new Size(991, 617);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -94,7 +100,7 @@
             tabPage1.Location = new Point(4, 29);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(846, 417);
+            tabPage1.Size = new Size(983, 584);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "資料建檔";
             tabPage1.UseVisualStyleBackColor = true;
@@ -214,7 +220,7 @@
             tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(846, 417);
+            tabPage2.Size = new Size(983, 584);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "資料維護";
             tabPage2.UseVisualStyleBackColor = true;
@@ -270,63 +276,58 @@
             // 
             // tabPage3
             // 
-            tabPage3.Controls.Add(pbQuit3);
-            tabPage3.Controls.Add(pbitemsDel);
-            tabPage3.Controls.Add(pbitemsUpdate);
-            tabPage3.Controls.Add(pbitemsNew);
-            tabPage3.Controls.Add(pbItemsSelect);
-            tabPage3.Controls.Add(dataGridViewItems);
-            tabPage3.Controls.Add(pbConnect);
+            tabPage3.Controls.Add(tableLayoutPanel2);
             tabPage3.Location = new Point(4, 29);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(846, 417);
+            tabPage3.Size = new Size(983, 584);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "資料庫連結";
             tabPage3.UseVisualStyleBackColor = true;
             // 
-            // pbQuit3
+            // tableLayoutPanel2
             // 
-            pbQuit3.Location = new Point(660, 30);
-            pbQuit3.Name = "pbQuit3";
-            pbQuit3.Size = new Size(120, 45);
-            pbQuit3.TabIndex = 10;
-            pbQuit3.Text = "離開";
-            pbQuit3.UseVisualStyleBackColor = true;
-            pbQuit3.Click += pbQuit3_Click;
+            tableLayoutPanel2.ColumnCount = 1;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Controls.Add(dataGridViewItems, 0, 1);
+            tableLayoutPanel2.Controls.Add(flowLayoutPanel1, 0, 0);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(0, 0);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 2;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle());
+            tableLayoutPanel2.RowStyles.Add(new RowStyle());
+            tableLayoutPanel2.Size = new Size(983, 584);
+            tableLayoutPanel2.TabIndex = 13;
             // 
-            // pbitemsDel
+            // dataGridViewItems
             // 
-            pbitemsDel.Location = new Point(529, 33);
-            pbitemsDel.Name = "pbitemsDel";
-            pbitemsDel.Size = new Size(109, 42);
-            pbitemsDel.TabIndex = 5;
-            pbitemsDel.Text = "刪除";
-            pbitemsDel.UseVisualStyleBackColor = true;
-            pbitemsDel.Click += pbitemsDel_Click;
+            dataGridViewItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewItems.Dock = DockStyle.Fill;
+            dataGridViewItems.Location = new Point(3, 61);
+            dataGridViewItems.Name = "dataGridViewItems";
+            dataGridViewItems.Size = new Size(977, 520);
+            dataGridViewItems.TabIndex = 1;
+            dataGridViewItems.ColumnHeaderMouseDoubleClick += dataGridViewItems_ColumnHeaderMouseDoubleClick;
             // 
-            // pbitemsUpdate
+            // flowLayoutPanel1
             // 
-            pbitemsUpdate.Location = new Point(403, 33);
-            pbitemsUpdate.Name = "pbitemsUpdate";
-            pbitemsUpdate.Size = new Size(109, 42);
-            pbitemsUpdate.TabIndex = 4;
-            pbitemsUpdate.Text = "修改";
-            pbitemsUpdate.UseVisualStyleBackColor = true;
-            pbitemsUpdate.Click += pbitemsUpdate_Click_1;
-            // 
-            // pbitemsNew
-            // 
-            pbitemsNew.Location = new Point(278, 33);
-            pbitemsNew.Name = "pbitemsNew";
-            pbitemsNew.Size = new Size(109, 42);
-            pbitemsNew.TabIndex = 3;
-            pbitemsNew.Text = "新增";
-            pbitemsNew.UseVisualStyleBackColor = true;
-            pbitemsNew.Click += pbitemsNew_Click;
+            flowLayoutPanel1.Controls.Add(pbItemsSelect);
+            flowLayoutPanel1.Controls.Add(pbitemsNew);
+            flowLayoutPanel1.Controls.Add(pbitemsUpdate);
+            flowLayoutPanel1.Controls.Add(pbitemsDel);
+            flowLayoutPanel1.Controls.Add(pbQuit3);
+            flowLayoutPanel1.Controls.Add(lbSerch);
+            flowLayoutPanel1.Controls.Add(dfSerch);
+            flowLayoutPanel1.Controls.Add(pbConnect);
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+            flowLayoutPanel1.Location = new Point(3, 3);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(977, 52);
+            flowLayoutPanel1.TabIndex = 2;
             // 
             // pbItemsSelect
             // 
-            pbItemsSelect.Location = new Point(152, 33);
+            pbItemsSelect.Location = new Point(3, 3);
             pbItemsSelect.Name = "pbItemsSelect";
             pbItemsSelect.Size = new Size(109, 42);
             pbItemsSelect.TabIndex = 2;
@@ -334,17 +335,66 @@
             pbItemsSelect.UseVisualStyleBackColor = true;
             pbItemsSelect.Click += pbItemsSelect_Click;
             // 
-            // dataGridViewItems
+            // pbitemsNew
             // 
-            dataGridViewItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewItems.Location = new Point(18, 110);
-            dataGridViewItems.Name = "dataGridViewItems";
-            dataGridViewItems.Size = new Size(808, 277);
-            dataGridViewItems.TabIndex = 1;
+            pbitemsNew.Location = new Point(118, 3);
+            pbitemsNew.Name = "pbitemsNew";
+            pbitemsNew.Size = new Size(109, 42);
+            pbitemsNew.TabIndex = 3;
+            pbitemsNew.Text = "新增";
+            pbitemsNew.UseVisualStyleBackColor = true;
+            pbitemsNew.Click += pbitemsNew_Click;
+            // 
+            // pbitemsUpdate
+            // 
+            pbitemsUpdate.Location = new Point(233, 3);
+            pbitemsUpdate.Name = "pbitemsUpdate";
+            pbitemsUpdate.Size = new Size(109, 42);
+            pbitemsUpdate.TabIndex = 4;
+            pbitemsUpdate.Text = "修改";
+            pbitemsUpdate.UseVisualStyleBackColor = true;
+            pbitemsUpdate.Click += pbitemsUpdate_Click_1;
+            // 
+            // pbitemsDel
+            // 
+            pbitemsDel.Location = new Point(348, 3);
+            pbitemsDel.Name = "pbitemsDel";
+            pbitemsDel.Size = new Size(109, 42);
+            pbitemsDel.TabIndex = 5;
+            pbitemsDel.Text = "刪除";
+            pbitemsDel.UseVisualStyleBackColor = true;
+            pbitemsDel.Click += pbitemsDel_Click;
+            // 
+            // pbQuit3
+            // 
+            pbQuit3.Location = new Point(463, 3);
+            pbQuit3.Name = "pbQuit3";
+            pbQuit3.Size = new Size(120, 45);
+            pbQuit3.TabIndex = 10;
+            pbQuit3.Text = "離開";
+            pbQuit3.UseVisualStyleBackColor = true;
+            pbQuit3.Click += pbQuit3_Click;
+            // 
+            // lbSerch
+            // 
+            lbSerch.AutoSize = true;
+            lbSerch.Location = new Point(589, 0);
+            lbSerch.Name = "lbSerch";
+            lbSerch.Size = new Size(73, 20);
+            lbSerch.TabIndex = 11;
+            lbSerch.Text = "篩選內容";
+            // 
+            // dfSerch
+            // 
+            dfSerch.Location = new Point(668, 3);
+            dfSerch.Name = "dfSerch";
+            dfSerch.Size = new Size(109, 29);
+            dfSerch.TabIndex = 12;
+            dfSerch.TextChanged += dfSerch_TextChanged;
             // 
             // pbConnect
             // 
-            pbConnect.Location = new Point(37, 33);
+            pbConnect.Location = new Point(783, 3);
             pbConnect.Name = "pbConnect";
             pbConnect.Size = new Size(109, 42);
             pbConnect.TabIndex = 0;
@@ -357,17 +407,21 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(854, 450);
+            ClientSize = new Size(991, 617);
             Controls.Add(tabControl1);
             Name = "Form1";
             Text = "Form1";
+            WindowState = FormWindowState.Maximized;
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             tabPage3.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridViewItems).EndInit();
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -402,5 +456,9 @@
         private Button pbitemsDel;
         private Button pbitemsUpdate;
         private Button pbQuit3;
+        private Label lbSerch;
+        private TextBox dfSerch;
+        private TableLayoutPanel tableLayoutPanel2;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }

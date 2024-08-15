@@ -18,12 +18,14 @@ namespace MAXApp1
         //itemsview item;
         private string connString;
         private itemsview item;
-        public FormUpdate(itemsview item, string connString)
+        private DatabaseManager dbManager;
+        public FormUpdate(DatabaseManager dbManager, itemsview item, string connString)
         {
             InitializeComponent();
             this.item = item;
             InitializeFields();
             this.connString = connString;
+            this.dbManager = dbManager;
         }
         private void InitializeFields()
         {
@@ -94,9 +96,10 @@ namespace MAXApp1
 
             //int id; // 這裡宣告一個新的變數 id，用於存儲最終的 ID
 
-            using (SqlConnection conn = new SqlConnection(connString))
+            //using (SqlConnection conn = new SqlConnection(connString)) 
+            using (SqlConnection conn = dbManager.OpenConnection())
             {
-                conn.Open();
+                //conn.Open();
 
                 // 檢查 ID 是否存在
                 string checkQuery = "SELECT COUNT(*) FROM Items WHERE Id = @Id";
