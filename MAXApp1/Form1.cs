@@ -20,7 +20,8 @@ namespace MAXApp1
             //ConnString = "Server=localhost;Database=BL;User Id=SYSADM;Password=SYSADM;"; 
             //ConnString = "Server=192.168.1.9;Database=_SMARTMANTEST;User Id=SYSADM;Password=SYSADM;";
             // 初始化 DatabaseManager
-            dbManager = new DatabaseManager("localhost", "BL", "SYSADM", "SYSADM");
+            //dbManager = new DatabaseManager("localhost", "BL", "SYSADM", "SYSADM");
+            dbManager = new DatabaseManager("192.168.1.9", "_SMARTMANTEST", "SYSADM", "SYSADM");
             // 註冊 SelectedIndexChanged 事件
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.Load += new EventHandler(Form1_Load);
@@ -65,18 +66,20 @@ namespace MAXApp1
             using (SqlConnection conn = dbManager.OpenConnection())
             {
 
-                //  dataGridView1 中的資料，但保留列設置
-                dataGridViewItems.Rows.Clear();
-                //conn.Open();
+                // 從資料庫中查詢資料
                 var items = conn.Query<itemsview>("SELECT * FROM Items").ToList();
-                //itemsListForSorting = items;
-                // 創建一個新的列表，並將 items 的內容複製到這個新列表中
-                itemsListForSorting = items.ToList();
+
+                // 清空 itemsListForSorting 並重新加載資料
+                itemsListForSorting.Clear();
+                itemsListForSorting.AddRange(items);
+
+                // 清空 BindingList 並重新加載資料
+                itemsList.Clear();
                 foreach (var item in items)
                 {
                     itemsList.Add(item);
                 }
-                //conn.Close();
+
                 dataGridViewItems.Columns["Id"].HeaderText = "ID";
                 dataGridViewItems.Columns["Name"].HeaderText = "名稱";
                 dataGridViewItems.Columns["Description"].HeaderText = "描述";
@@ -314,7 +317,7 @@ namespace MAXApp1
                     LastUpdated = lastUpdated
                 });
             }
-                        // 重新綁定 DataGridView 以顯示最新資料
+            // 重新綁定 DataGridView 以顯示最新資料
             dataGridViewItems.DataSource = null;
             dataGridViewItems.DataSource = itemsList;
             // 重新設定欄位標題
@@ -372,7 +375,7 @@ namespace MAXApp1
             formUpdate.ShowDialog();
         }
 
-          private void pbitemsDel_Click(object sender, EventArgs e)
+        private void pbitemsDel_Click(object sender, EventArgs e)
         {
             // 檢查是否有選取資料
             if (dataGridViewItems.SelectedRows.Count == 0)
@@ -507,6 +510,8 @@ namespace MAXApp1
                 dataGridViewItems.DataSource = new BindingList<itemsview>(filteredList);
             }
         }
+
+
     }
 }
 

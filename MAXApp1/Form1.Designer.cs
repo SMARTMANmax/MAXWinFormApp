@@ -51,24 +51,26 @@
             colIDNumber = new DataGridViewTextBoxColumn();
             tabPage3 = new TabPage();
             tableLayoutPanel2 = new TableLayoutPanel();
-            dataGridViewItems = new DataGridView();
             flowLayoutPanel1 = new FlowLayoutPanel();
             pbItemsSelect = new Button();
             pbitemsNew = new Button();
             pbitemsUpdate = new Button();
             pbitemsDel = new Button();
             pbQuit3 = new Button();
+            pbConnect = new Button();
+            dataGridViewItems = new DataGridView();
+            flowLayoutPanel2 = new FlowLayoutPanel();
             lbSerch = new Label();
             dfSerch = new TextBox();
-            pbConnect = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabPage3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewItems).BeginInit();
             flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewItems).BeginInit();
+            flowLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl1
@@ -288,26 +290,18 @@
             // 
             tableLayoutPanel2.ColumnCount = 1;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Controls.Add(dataGridViewItems, 0, 1);
             tableLayoutPanel2.Controls.Add(flowLayoutPanel1, 0, 0);
+            tableLayoutPanel2.Controls.Add(dataGridViewItems, 0, 2);
+            tableLayoutPanel2.Controls.Add(flowLayoutPanel2, 0, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(0, 0);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 2;
+            tableLayoutPanel2.RowCount = 3;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle());
             tableLayoutPanel2.RowStyles.Add(new RowStyle());
             tableLayoutPanel2.RowStyles.Add(new RowStyle());
             tableLayoutPanel2.Size = new Size(983, 584);
             tableLayoutPanel2.TabIndex = 13;
-            // 
-            // dataGridViewItems
-            // 
-            dataGridViewItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewItems.Dock = DockStyle.Fill;
-            dataGridViewItems.Location = new Point(3, 61);
-            dataGridViewItems.Name = "dataGridViewItems";
-            dataGridViewItems.Size = new Size(977, 520);
-            dataGridViewItems.TabIndex = 1;
-            dataGridViewItems.ColumnHeaderMouseDoubleClick += dataGridViewItems_ColumnHeaderMouseDoubleClick;
             // 
             // flowLayoutPanel1
             // 
@@ -316,13 +310,11 @@
             flowLayoutPanel1.Controls.Add(pbitemsUpdate);
             flowLayoutPanel1.Controls.Add(pbitemsDel);
             flowLayoutPanel1.Controls.Add(pbQuit3);
-            flowLayoutPanel1.Controls.Add(lbSerch);
-            flowLayoutPanel1.Controls.Add(dfSerch);
             flowLayoutPanel1.Controls.Add(pbConnect);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.Location = new Point(3, 3);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(977, 52);
+            flowLayoutPanel1.Size = new Size(977, 51);
             flowLayoutPanel1.TabIndex = 2;
             // 
             // pbItemsSelect
@@ -375,26 +367,9 @@
             pbQuit3.UseVisualStyleBackColor = true;
             pbQuit3.Click += pbQuit3_Click;
             // 
-            // lbSerch
-            // 
-            lbSerch.AutoSize = true;
-            lbSerch.Location = new Point(589, 0);
-            lbSerch.Name = "lbSerch";
-            lbSerch.Size = new Size(73, 20);
-            lbSerch.TabIndex = 11;
-            lbSerch.Text = "篩選內容";
-            // 
-            // dfSerch
-            // 
-            dfSerch.Location = new Point(668, 3);
-            dfSerch.Name = "dfSerch";
-            dfSerch.Size = new Size(109, 29);
-            dfSerch.TabIndex = 12;
-            dfSerch.TextChanged += dfSerch_TextChanged;
-            // 
             // pbConnect
             // 
-            pbConnect.Location = new Point(783, 3);
+            pbConnect.Location = new Point(589, 3);
             pbConnect.Name = "pbConnect";
             pbConnect.Size = new Size(109, 42);
             pbConnect.TabIndex = 0;
@@ -402,6 +377,43 @@
             pbConnect.UseVisualStyleBackColor = true;
             pbConnect.Visible = false;
             pbConnect.Click += pbConnect_Click;
+            // 
+            // dataGridViewItems
+            // 
+            dataGridViewItems.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewItems.Location = new Point(3, 110);
+            dataGridViewItems.Name = "dataGridViewItems";
+            dataGridViewItems.Size = new Size(977, 470);
+            dataGridViewItems.TabIndex = 1;
+            dataGridViewItems.ColumnHeaderMouseDoubleClick += dataGridViewItems_ColumnHeaderMouseDoubleClick;
+            // 
+            // flowLayoutPanel2
+            // 
+            flowLayoutPanel2.Controls.Add(lbSerch);
+            flowLayoutPanel2.Controls.Add(dfSerch);
+            flowLayoutPanel2.Dock = DockStyle.Fill;
+            flowLayoutPanel2.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel2.Location = new Point(3, 60);
+            flowLayoutPanel2.Name = "flowLayoutPanel2";
+            flowLayoutPanel2.Size = new Size(977, 44);
+            flowLayoutPanel2.TabIndex = 12;
+            // 
+            // lbSerch
+            // 
+            lbSerch.AutoSize = true;
+            lbSerch.Location = new Point(3, 0);
+            lbSerch.Name = "lbSerch";
+            lbSerch.Size = new Size(73, 20);
+            lbSerch.TabIndex = 11;
+            lbSerch.Text = "篩選內容";
+            // 
+            // dfSerch
+            // 
+            dfSerch.Location = new Point(82, 3);
+            dfSerch.Name = "dfSerch";
+            dfSerch.Size = new Size(109, 29);
+            dfSerch.TabIndex = 12;
+            dfSerch.TextChanged += dfSerch_TextChanged;
             // 
             // Form1
             // 
@@ -419,9 +431,10 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             tabPage3.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridViewItems).EndInit();
             flowLayoutPanel1.ResumeLayout(false);
-            flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewItems).EndInit();
+            flowLayoutPanel2.ResumeLayout(false);
+            flowLayoutPanel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -460,5 +473,6 @@
         private TextBox dfSerch;
         private TableLayoutPanel tableLayoutPanel2;
         private FlowLayoutPanel flowLayoutPanel1;
+        private FlowLayoutPanel flowLayoutPanel2;
     }
 }
