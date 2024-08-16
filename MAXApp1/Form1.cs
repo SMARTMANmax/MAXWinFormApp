@@ -243,32 +243,21 @@ namespace MAXApp1
 
         private void pbitemsUpdate_Click_1(object sender, EventArgs e)
         {
-            if (dataGridViewItems.SelectedRows.Count > 0)
-            {
-                var selectedRow = dataGridViewItems.SelectedRows[0];
+            // 將 e 轉換為 DataGridViewCellEventArgs
+            DataGridViewCellEventArgs cellEventArgs = e as DataGridViewCellEventArgs;
 
-                itemsview item = new itemsview
-                {
-                    Id = selectedRow.Cells["Id"].Value.ToString(),
-                    Name = selectedRow.Cells["Name"].Value.ToString(),
-                    Description = selectedRow.Cells["Description"].Value.ToString(),
-                    MarketValue = Convert.ToInt32(selectedRow.Cells["MarketValue"].Value),
-                    Quantity = Convert.ToInt32(selectedRow.Cells["Quantity"].Value),
-                    Type = selectedRow.Cells["Type"].Value.ToString(),
-                    LastUpdated = Convert.ToDateTime(selectedRow.Cells["LastUpdated"].Value)
-                };
-                //FormUpdate formUpdate = new FormUpdate(item, ConnString)
-                //{
-                //    Owner = this
-                //};
-                FormUpdate formUpdate = new FormUpdate(this.dbManager, item, ConnString);
-                formUpdate.Owner = this; // this 是當前的 Form1 實例
-                formUpdate.ShowDialog();
-            }
-            else
+            // 檢查轉換是否成功
+            if (cellEventArgs != null)
             {
-                MessageBox.Show("請選擇一個項目");
+                // 檢查是否是標題行
+                if (cellEventArgs.RowIndex == -1)
+                {
+                    // 如果是標題行，則不執行後續邏輯
+                    return;
+                }
             }
+            ItemUpdater updater = new ItemUpdater(this.dbManager);
+            updater.UpdateSelectedItem(dataGridViewItems, this);
         }
         public void UpdateDataGridViewItems(int id, string name, string description, int marketValue, int quantity, string type, DateTime lastUpdated)
         {
@@ -339,18 +328,7 @@ namespace MAXApp1
 
         private void pbitemsNew_Click(object sender, EventArgs e)
         {
-            //SqlConnection conn = new SqlConnection(ConnString);
-            //conn.Open();
             SqlConnection conn = dbManager.OpenConnection();
-            // 獲取當前 items 表中最大 Id
-            //string query = "SELECT ISNULL(MAX(Id), 0) + 1 FROM Items";
-            //SqlCommand cmd = new SqlCommand(query, conn);
-            //int newId = (int)cmd.ExecuteScalar();
-            //// 獲取下個要顯示的 Id
-            //string query = "SELECT IDENT_CURRENT('items') + IDENT_INCR('items')";
-            //SqlCommand cmd = new SqlCommand(query, conn);
-            //int newId = Convert.ToInt32(cmd.ExecuteScalar());
-            // 使用 Dapper 來執行查詢並獲取 newId
             string query = "SELECT IDENT_CURRENT('items') + IDENT_INCR('items')";
             int newId = conn.Query<int>(query).Single();
             conn.Close();
@@ -368,7 +346,7 @@ namespace MAXApp1
             };
 
             // 打開 FormUpdate 並傳遞 newItem 和 ConnString
-            FormUpdate formUpdate = new FormUpdate(this.dbManager, item, ConnString)
+            FormUpdate formUpdate = new FormUpdate(this.dbManager, item)
             {
                 Owner = this
             };
@@ -463,20 +441,6 @@ namespace MAXApp1
             // 更新 dataGridViewItems 的顯示
             dataGridViewItems.DataSource = null; // 取消繫結
             dataGridViewItems.DataSource = itemsList; // 重新繫結
-            //// 切換排序方向
-            //ListSortDirection direction = ListSortDirection.Ascending;
-
-            //if (dataGridViewItems.SortOrder == System.Windows.Forms.SortOrder.Ascending || dataGridViewItems.SortOrder == System.Windows.Forms.SortOrder.None)
-            //{
-            //    direction = ListSortDirection.Descending;
-            //}
-            //else
-            //{
-            //    direction = ListSortDirection.Ascending;
-            //}
-
-            // 對指定列進行排序
-            //dataGridViewItems.Sort(dataGridViewItems.Columns[e.ColumnIndex], direction);
             dataGridViewItems.Columns["Id"].HeaderText = "ID";
             dataGridViewItems.Columns["Name"].HeaderText = "名稱";
             dataGridViewItems.Columns["Description"].HeaderText = "描述";
@@ -511,7 +475,17 @@ namespace MAXApp1
             }
         }
 
-
+        private void dataGridViewItems_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // 檢查是否是標題行
+            if (e.RowIndex == -1)
+            {
+                // 如果是標題行，則不執行後續邏輯
+                return;
+            }
+            ItemUpdater updater = new ItemUpdater(this.dbManager);
+            updater.UpdateSelectedItem(dataGridViewItems, this);
+        }
     }
 }
 

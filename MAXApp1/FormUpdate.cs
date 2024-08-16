@@ -16,15 +16,16 @@ namespace MAXApp1
     {
         // Employee 容器
         //itemsview item;
-        private string connString;
+        //private string connString;
         private itemsview item;
         private DatabaseManager dbManager;
-        public FormUpdate(DatabaseManager dbManager, itemsview item, string connString)
+        //public FormUpdate(DatabaseManager dbManager, itemsview item, string connString)
+        public FormUpdate(DatabaseManager dbManager, itemsview item)
         {
             InitializeComponent();
             this.item = item;
             InitializeFields();
-            this.connString = connString;
+            //this.connString = connString;
             this.dbManager = dbManager;
         }
         private void InitializeFields()

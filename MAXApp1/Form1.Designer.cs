@@ -385,6 +385,7 @@
             dataGridViewItems.Name = "dataGridViewItems";
             dataGridViewItems.Size = new Size(977, 470);
             dataGridViewItems.TabIndex = 1;
+            dataGridViewItems.CellDoubleClick += dataGridViewItems_CellDoubleClick;
             dataGridViewItems.ColumnHeaderMouseDoubleClick += dataGridViewItems_ColumnHeaderMouseDoubleClick;
             // 
             // flowLayoutPanel2
