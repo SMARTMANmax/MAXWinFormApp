@@ -12,6 +12,8 @@ namespace MAXApp1
 {
     public partial class Formfiles : Form
     {
+        // 物品陣列
+        List<item> items = new List<item>();
         public Formfiles()
         {
             InitializeComponent();
@@ -32,9 +34,14 @@ namespace MAXApp1
                 {
                     listBoxFIleData.Items.Add(item);
                 }
-                List<item> items = new List<item>();
-                for (var i = 1; i < lines.Length; i++)
+                //List<item> items = new List<item>();
+                for (var i = 0; i < lines.Length; i++)
                 {
+                    // 跳過第0個
+                    if (i == 0)
+                    {
+                        continue; // continue可以跳過這一圈，直接進入下一圈
+                    }
                     var splidate = lines[i].Split(",");
                     item item = new item();
                     item.Name = splidate[0];
@@ -42,9 +49,9 @@ namespace MAXApp1
                     item.Description = splidate[2];
                     item.MarketValue = splidate[3];
                     item.Quantity = splidate[4];
-                    items.Add(item);
+                    items.Add(item); // 把建立好的 item 加到 items 陣列
                 }
-                dataGridFileDate.DataSource = items;
+                dataGridFileData.DataSource = items;
             }
 
         }

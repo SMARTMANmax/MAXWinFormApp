@@ -33,7 +33,7 @@
             tabPage1 = new TabPage();
             listBoxFIleData = new ListBox();
             tabPage2 = new TabPage();
-            dataGridFileDate = new DataGridView();
+            dataGridFileData = new DataGridView();
             panel1 = new Panel();
             labFileName = new Label();
             button2 = new Button();
@@ -42,7 +42,7 @@
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridFileDate).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridFileData).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -97,7 +97,7 @@
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(dataGridFileDate);
+            tabPage2.Controls.Add(dataGridFileData);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -106,14 +106,14 @@
             tabPage2.Text = "表格顯示";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // dataGridFileDate
+            // dataGridFileData
             // 
-            dataGridFileDate.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridFileDate.Dock = DockStyle.Fill;
-            dataGridFileDate.Location = new Point(3, 3);
-            dataGridFileDate.Name = "dataGridFileDate";
-            dataGridFileDate.Size = new Size(780, 310);
-            dataGridFileDate.TabIndex = 0;
+            dataGridFileData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridFileData.Dock = DockStyle.Fill;
+            dataGridFileData.Location = new Point(3, 3);
+            dataGridFileData.Name = "dataGridFileData";
+            dataGridFileData.Size = new Size(780, 310);
+            dataGridFileData.TabIndex = 0;
             // 
             // panel1
             // 
@@ -168,7 +168,7 @@
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridFileDate).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridFileData).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -185,6 +185,6 @@
         private Button buttonOpenFile;
         private Label labFileName;
         private ListBox listBoxFIleData;
-        private DataGridView dataGridFileDate;
+        private DataGridView dataGridFileData;
     }
 }
