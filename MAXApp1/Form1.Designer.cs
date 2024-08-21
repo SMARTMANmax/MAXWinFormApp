@@ -57,13 +57,14 @@
             pbitemsUpdate = new Button();
             pbitemsDel = new Button();
             pbitemsDel2 = new Button();
+            pbImport1 = new Button();
             pbQuit3 = new Button();
             pbConnect = new Button();
             dataGridViewItems = new DataGridView();
             flowLayoutPanel2 = new FlowLayoutPanel();
             lbSerch = new Label();
             dfSerch = new TextBox();
-            pbImport1 = new Button();
+            pbExport = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -313,8 +314,8 @@
             flowLayoutPanel1.Controls.Add(pbitemsDel);
             flowLayoutPanel1.Controls.Add(pbitemsDel2);
             flowLayoutPanel1.Controls.Add(pbImport1);
+            flowLayoutPanel1.Controls.Add(pbExport);
             flowLayoutPanel1.Controls.Add(pbQuit3);
-            flowLayoutPanel1.Controls.Add(pbConnect);
             flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.Location = new Point(3, 3);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -371,9 +372,19 @@
             pbitemsDel2.UseVisualStyleBackColor = true;
             pbitemsDel2.Click += pbitemsDel2_Click;
             // 
+            // pbImport1
+            // 
+            pbImport1.Location = new Point(578, 3);
+            pbImport1.Name = "pbImport1";
+            pbImport1.Size = new Size(109, 42);
+            pbImport1.TabIndex = 12;
+            pbImport1.Text = "多筆轉入";
+            pbImport1.UseVisualStyleBackColor = true;
+            pbImport1.Click += pbImport1_Click;
+            // 
             // pbQuit3
             // 
-            pbQuit3.Location = new Point(693, 3);
+            pbQuit3.Location = new Point(808, 3);
             pbQuit3.Name = "pbQuit3";
             pbQuit3.Size = new Size(120, 45);
             pbQuit3.TabIndex = 10;
@@ -383,7 +394,7 @@
             // 
             // pbConnect
             // 
-            pbConnect.Location = new Point(819, 3);
+            pbConnect.Location = new Point(197, 3);
             pbConnect.Name = "pbConnect";
             pbConnect.Size = new Size(109, 42);
             pbConnect.TabIndex = 0;
@@ -406,6 +417,7 @@
             // 
             flowLayoutPanel2.Controls.Add(lbSerch);
             flowLayoutPanel2.Controls.Add(dfSerch);
+            flowLayoutPanel2.Controls.Add(pbConnect);
             flowLayoutPanel2.Dock = DockStyle.Fill;
             flowLayoutPanel2.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel2.Location = new Point(3, 60);
@@ -430,15 +442,15 @@
             dfSerch.TabIndex = 12;
             dfSerch.TextChanged += dfSerch_TextChanged;
             // 
-            // pbImport1
+            // pbExport
             // 
-            pbImport1.Location = new Point(578, 3);
-            pbImport1.Name = "pbImport1";
-            pbImport1.Size = new Size(109, 42);
-            pbImport1.TabIndex = 12;
-            pbImport1.Text = "多筆轉入";
-            pbImport1.UseVisualStyleBackColor = true;
-            pbImport1.Click += pbImport1_Click;
+            pbExport.Location = new Point(693, 3);
+            pbExport.Name = "pbExport";
+            pbExport.Size = new Size(109, 42);
+            pbExport.TabIndex = 13;
+            pbExport.Text = "轉出csv";
+            pbExport.UseVisualStyleBackColor = true;
+            pbExport.Click += pbExport_Click;
             // 
             // Form1
             // 
@@ -501,5 +513,6 @@
         private FlowLayoutPanel flowLayoutPanel2;
         private Button pbitemsDel2;
         private Button pbImport1;
+        private Button pbExport;
     }
 }

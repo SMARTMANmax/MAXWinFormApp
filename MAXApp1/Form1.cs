@@ -2,6 +2,8 @@ using Dapper;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Text;
 using System.Windows.Forms;
 
 namespace MAXApp1
@@ -542,7 +544,7 @@ namespace MAXApp1
                             dataGridViewItems.DataSource = itemsListForSorting;
                             dataGridViewItems.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
                             MessageBox.Show("刪除成功！");
-                            
+
                         }
                         catch (Exception ex)
                         {
@@ -567,7 +569,7 @@ namespace MAXApp1
 
                 using (SqlConnection conn = dbManager.OpenConnection())
                 {
-                   
+
                     for (var i = 1; i < lines.Length; i++)
                     {
                         var splitData = lines[i].Split(',');
@@ -583,7 +585,7 @@ namespace MAXApp1
                         {
                             Id = nextId++.ToString(),
                             Name = splitData[0],
-                            Type = splitData[1],    
+                            Type = splitData[1],
                             Description = splitData[4],
                             MarketValue = Convert.ToInt32(splitData[2]),
                             Quantity = Convert.ToInt32(splitData[3]),
@@ -594,14 +596,14 @@ namespace MAXApp1
                         conn.Execute(@"INSERT INTO Items (Name, Type, Description, MarketValue, Quantity, LastUpdated) 
                                VALUES (@Name, @Type, @Description, @MarketValue, @Quantity, @LastUpdated)",
                             new
-                                {
+                            {
                                 Name = item.Name,
                                 Type = item.Type,
                                 Description = item.Description,
                                 MarketValue = item.MarketValue,
                                 Quantity = item.Quantity,
                                 LastUpdated = DateTime.Now
-                                });
+                            });
 
                         items.Add(item);
                     }
@@ -612,6 +614,48 @@ namespace MAXApp1
                 dataGridViewItems.DataSource = null;
                 dataGridViewItems.DataSource = itemsListForSorting;
                 dataGridViewItems.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            }
+        }
+
+        private void pbExport_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "CSV files (*.csv)|*.csv";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = saveFileDialog.FileName;
+                List<string> lines = new List<string>();
+
+                // 加入表頭
+                string headerLine = string.Join(",",
+                    dataGridViewItems.Columns.Cast<DataGridViewColumn>()
+                    .Select(column => column.HeaderText));
+                lines.Add(headerLine);
+
+                // 加入每一列的資料
+                foreach (DataGridViewRow row in dataGridViewItems.Rows)
+                {
+                    if (!row.IsNewRow) // 跳過空白列
+                    {
+                        string line = string.Join(",",
+                            row.Cells.Cast<DataGridViewCell>()
+                            .Select(cell => cell.Value?.ToString() ?? ""));
+                        lines.Add(line);
+                    }
+                }
+
+                // 寫入CSV檔案
+                File.WriteAllLines(fileName, lines, Encoding.UTF8);
+                MessageBox.Show($"已儲存至 {fileName}");
+
+                // 開啟儲存的檔案
+                ProcessStartInfo processStartInfo = new ProcessStartInfo()
+                {
+                    FileName = fileName,
+                    UseShellExecute = true
+                };
+                Process.Start(processStartInfo);
             }
         }
     }

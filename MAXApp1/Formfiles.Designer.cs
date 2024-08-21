@@ -35,10 +35,10 @@
             tabPage2 = new TabPage();
             dataGridFileData = new DataGridView();
             panel1 = new Panel();
+            pbChangeForm1 = new Button();
             labFileName = new Label();
             pbCreateFile = new Button();
             buttonOpenFile = new Button();
-            pbChangeForm1 = new Button();
             tableLayoutPanel1.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -128,15 +128,26 @@
             panel1.Size = new Size(794, 94);
             panel1.TabIndex = 1;
             // 
+            // pbChangeForm1
+            // 
+            pbChangeForm1.Font = new Font("微軟正黑體", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            pbChangeForm1.Location = new Point(364, 24);
+            pbChangeForm1.Name = "pbChangeForm1";
+            pbChangeForm1.Size = new Size(133, 44);
+            pbChangeForm1.TabIndex = 3;
+            pbChangeForm1.Text = "切換視窗";
+            pbChangeForm1.UseVisualStyleBackColor = true;
+            pbChangeForm1.Click += pbChangeForm1_Click;
+            // 
             // labFileName
             // 
             labFileName.AutoSize = true;
             labFileName.Font = new Font("微軟正黑體", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
             labFileName.Location = new Point(25, 70);
             labFileName.Name = "labFileName";
-            labFileName.Size = new Size(64, 24);
+            labFileName.Size = new Size(86, 24);
             labFileName.TabIndex = 2;
-            labFileName.Text = "label1";
+            labFileName.Text = "檔案路徑";
             // 
             // pbCreateFile
             // 
@@ -159,17 +170,6 @@
             buttonOpenFile.Text = "讀取檔案";
             buttonOpenFile.UseVisualStyleBackColor = true;
             buttonOpenFile.Click += buttonOpenFile_Click;
-            // 
-            // pbChangeForm1
-            // 
-            pbChangeForm1.Font = new Font("微軟正黑體", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            pbChangeForm1.Location = new Point(364, 24);
-            pbChangeForm1.Name = "pbChangeForm1";
-            pbChangeForm1.Size = new Size(133, 44);
-            pbChangeForm1.TabIndex = 3;
-            pbChangeForm1.Text = "切換視窗";
-            pbChangeForm1.UseVisualStyleBackColor = true;
-            pbChangeForm1.Click += pbChangeForm1_Click;
             // 
             // Formfiles
             // 
