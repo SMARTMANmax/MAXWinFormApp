@@ -20,8 +20,8 @@ namespace MAXApp1
             //ConnString = "Server=localhost;Database=BL;User Id=SYSADM;Password=SYSADM;"; 
             //ConnString = "Server=192.168.1.9;Database=_SMARTMANTEST;User Id=SYSADM;Password=SYSADM;";
             // 初始化 DatabaseManager
-            //dbManager = new DatabaseManager("localhost", "BL", "SYSADM", "SYSADM");
-            dbManager = new DatabaseManager("192.168.1.9", "_SMARTMANTEST", "SYSADM", "SYSADM");
+            dbManager = new DatabaseManager("localhost", "BL", "SYSADM", "SYSADM");
+            //dbManager = new DatabaseManager("192.168.1.9", "_SMARTMANTEST", "SYSADM", "SYSADM");
             // 註冊 SelectedIndexChanged 事件
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.Load += new EventHandler(Form1_Load);
@@ -90,6 +90,7 @@ namespace MAXApp1
             }
             dataGridViewItems.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewItems.AllowUserToAddRows = false;
+            dataGridViewItems.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
         }
 
 
@@ -485,6 +486,133 @@ namespace MAXApp1
             }
             ItemUpdater updater = new ItemUpdater(this.dbManager);
             updater.UpdateSelectedItem(dataGridViewItems, this);
+        }
+        public void ShowTabPage(int index)
+        {
+            tabControl1.SelectedIndex = index;
+        }
+
+        private void pbitemsDel2_Click(object sender, EventArgs e)
+        {
+            // 檢查是否有選取資料
+            if (dataGridViewItems.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("請選擇至少一個項目");
+                return;
+            }
+
+            // 確認刪除
+            DialogResult result = MessageBox.Show($"確定要刪除選中的 {dataGridViewItems.SelectedRows.Count} 筆資料嗎？", "確認刪除", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                using (SqlConnection conn = dbManager.OpenConnection())
+                {
+                    // 開始交易
+                    using (var transaction = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            // 遍歷選中的每一行
+                            foreach (DataGridViewRow selectedRow in dataGridViewItems.SelectedRows)
+                            {
+                                // 取得選中的行的 Id 值
+                                int selectedId;
+                                if (!int.TryParse(selectedRow.Cells["Id"].Value.ToString(), out selectedId))
+                                {
+                                    MessageBox.Show("選取的項目無效");
+                                    return;
+                                }
+
+                                // 使用 Dapper 刪除資料庫中的資料
+                                string deleteQuery = "DELETE FROM Items WHERE Id = @Id";
+                                conn.Execute(deleteQuery, new { Id = selectedId }, transaction);
+
+                                //// 刪除 itemsListForSorting 中的資料
+                                var itemToRemove = itemsListForSorting.FirstOrDefault(item => item.Id == selectedId.ToString());
+                                if (itemToRemove != null)
+                                {
+                                    itemsListForSorting.Remove(itemToRemove);
+                                }
+                            }
+
+                            // 提交交易
+                            transaction.Commit();
+                            // 更新 DataGridView
+                            dataGridViewItems.DataSource = null;
+                            dataGridViewItems.DataSource = itemsListForSorting;
+                            dataGridViewItems.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                            MessageBox.Show("刪除成功！");
+                            
+                        }
+                        catch (Exception ex)
+                        {
+                            // 如果有錯誤，回滾交易
+                            transaction.Rollback();
+                            MessageBox.Show($"刪除失敗: {ex.Message}");
+                        }
+                    }
+                }
+            }
+        }
+
+        private void pbImport1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string[] lines = File.ReadAllLines(openFileDialog.FileName);
+                List<itemsview> items = new List<itemsview>();
+
+                using (SqlConnection conn = dbManager.OpenConnection())
+                {
+                   
+                    for (var i = 1; i < lines.Length; i++)
+                    {
+                        var splitData = lines[i].Split(',');
+                        // 跳過表頭或 "名稱" 開頭的行
+                        if (splitData[0] == "名稱")
+                        {
+                            continue;
+                        }
+
+                        int nextId = conn.QuerySingle<int>("SELECT IDENT_CURRENT('items') + IDENT_INCR('items')");
+
+                        itemsview item = new itemsview
+                        {
+                            Id = nextId++.ToString(),
+                            Name = splitData[0],
+                            Type = splitData[1],    
+                            Description = splitData[4],
+                            MarketValue = Convert.ToInt32(splitData[2]),
+                            Quantity = Convert.ToInt32(splitData[3]),
+                            LastUpdated = DateTime.Now
+                        };
+
+
+                        conn.Execute(@"INSERT INTO Items (Name, Type, Description, MarketValue, Quantity, LastUpdated) 
+                               VALUES (@Name, @Type, @Description, @MarketValue, @Quantity, @LastUpdated)",
+                            new
+                                {
+                                Name = item.Name,
+                                Type = item.Type,
+                                Description = item.Description,
+                                MarketValue = item.MarketValue,
+                                Quantity = item.Quantity,
+                                LastUpdated = DateTime.Now
+                                });
+
+                        items.Add(item);
+                    }
+                }
+
+                // 更新 DataGridView
+                itemsListForSorting.AddRange(items);
+                dataGridViewItems.DataSource = null;
+                dataGridViewItems.DataSource = itemsListForSorting;
+                dataGridViewItems.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            }
         }
     }
 }

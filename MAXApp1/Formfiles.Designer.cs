@@ -36,8 +36,9 @@
             dataGridFileData = new DataGridView();
             panel1 = new Panel();
             labFileName = new Label();
-            button2 = new Button();
+            pbCreateFile = new Button();
             buttonOpenFile = new Button();
+            pbChangeForm1 = new Button();
             tableLayoutPanel1.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
@@ -117,8 +118,9 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(pbChangeForm1);
             panel1.Controls.Add(labFileName);
-            panel1.Controls.Add(button2);
+            panel1.Controls.Add(pbCreateFile);
             panel1.Controls.Add(buttonOpenFile);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(3, 3);
@@ -129,26 +131,28 @@
             // labFileName
             // 
             labFileName.AutoSize = true;
-            labFileName.Location = new Point(423, 41);
+            labFileName.Font = new Font("微軟正黑體", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            labFileName.Location = new Point(25, 70);
             labFileName.Name = "labFileName";
-            labFileName.Size = new Size(42, 15);
+            labFileName.Size = new Size(64, 24);
             labFileName.TabIndex = 2;
             labFileName.Text = "label1";
             // 
-            // button2
+            // pbCreateFile
             // 
-            button2.Font = new Font("微軟正黑體", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            button2.Location = new Point(244, 24);
-            button2.Name = "button2";
-            button2.Size = new Size(133, 44);
-            button2.TabIndex = 1;
-            button2.Text = "產出按鈕";
-            button2.UseVisualStyleBackColor = true;
+            pbCreateFile.Font = new Font("微軟正黑體", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            pbCreateFile.Location = new Point(201, 24);
+            pbCreateFile.Name = "pbCreateFile";
+            pbCreateFile.Size = new Size(133, 44);
+            pbCreateFile.TabIndex = 1;
+            pbCreateFile.Text = "產出按鈕";
+            pbCreateFile.UseVisualStyleBackColor = true;
+            pbCreateFile.Click += pbCreateFile_Click;
             // 
             // buttonOpenFile
             // 
             buttonOpenFile.Font = new Font("微軟正黑體", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            buttonOpenFile.Location = new Point(50, 24);
+            buttonOpenFile.Location = new Point(25, 24);
             buttonOpenFile.Name = "buttonOpenFile";
             buttonOpenFile.Size = new Size(142, 44);
             buttonOpenFile.TabIndex = 0;
@@ -156,10 +160,22 @@
             buttonOpenFile.UseVisualStyleBackColor = true;
             buttonOpenFile.Click += buttonOpenFile_Click;
             // 
+            // pbChangeForm1
+            // 
+            pbChangeForm1.Font = new Font("微軟正黑體", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            pbChangeForm1.Location = new Point(364, 24);
+            pbChangeForm1.Name = "pbChangeForm1";
+            pbChangeForm1.Size = new Size(133, 44);
+            pbChangeForm1.TabIndex = 3;
+            pbChangeForm1.Text = "切換視窗";
+            pbChangeForm1.UseVisualStyleBackColor = true;
+            pbChangeForm1.Click += pbChangeForm1_Click;
+            // 
             // Formfiles
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
             ClientSize = new Size(800, 450);
             Controls.Add(tableLayoutPanel1);
             Name = "Formfiles";
@@ -181,10 +197,11 @@
         private TabPage tabPage1;
         private TabPage tabPage2;
         private Panel panel1;
-        private Button button2;
+        private Button pbCreateFile;
         private Button buttonOpenFile;
         private Label labFileName;
         private ListBox listBoxFIleData;
         private DataGridView dataGridFileData;
+        private Button pbChangeForm1;
     }
 }
