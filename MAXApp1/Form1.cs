@@ -20,8 +20,8 @@ namespace MAXApp1
             //ConnString = "Server=localhost;Database=BL;User Id=SYSADM;Password=SYSADM;"; 
             //ConnString = "Server=192.168.1.9;Database=_SMARTMANTEST;User Id=SYSADM;Password=SYSADM;";
             // 初始化 DatabaseManager
-            dbManager = new DatabaseManager("localhost", "BL", "SYSADM", "SYSADM");
-            //dbManager = new DatabaseManager("192.168.1.9", "_SMARTMANTEST", "SYSADM", "SYSADM");
+            //dbManager = new DatabaseManager("localhost", "BL", "SYSADM", "SYSADM");
+            dbManager = new DatabaseManager("192.168.1.9", "_SMARTMANTEST", "SYSADM", "SYSADM");
             // 註冊 SelectedIndexChanged 事件
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             this.Load += new EventHandler(Form1_Load);
